@@ -34,7 +34,7 @@ export default function LoginScreen() {
     return (
         <>
             <MUILoginFailModal openLoginFailModal = {openLoginFailModal}> </MUILoginFailModal>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{ height: '82%' }}>
                 <CssBaseline />
                 <Grid
                     item

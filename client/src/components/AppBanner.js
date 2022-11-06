@@ -102,8 +102,8 @@ export default function AppBanner() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+        <Box sx={{ flexGrow: 1, height: '8%'}}>
+            <AppBar position="static" sx = {{height: '100%'}}>
                 <Toolbar>
                     <Typography                        
                         variant="h4"
