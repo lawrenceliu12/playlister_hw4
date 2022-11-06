@@ -31,6 +31,7 @@ export default function AppBanner() {
     const handleLogout = () => {
         handleMenuClose();
         auth.logoutUser();
+        store.clearAllTransactions();
     }
 
     const menuId = 'primary-search-account-menu';
@@ -102,7 +103,7 @@ export default function AppBanner() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, height: '8%'}}>
+        <Box sx={{ flexGrow: 1, height: '10%'}}>
             <AppBar position="static" sx = {{height: '100%'}}>
                 <Toolbar>
                     <Typography                        

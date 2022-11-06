@@ -518,7 +518,9 @@ function GlobalStoreContextProvider(props) {
     store.canClose = function() {
         return (store.currentList !== null);
     }
-
+    store.clearAllTransactions = function() {
+        tps.clearAllTransactions();
+    }
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
     store.setIsListNameEditActive = function () {
         storeReducer({
