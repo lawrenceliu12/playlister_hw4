@@ -35,8 +35,8 @@ export default function MUIRegisterFailModal(){
                         Warning
                     </AlertTitle>
                     {errorMessage}
-                    <Button onClick={handleCloseModal}>
-                        CLOSE
+                    <Button variant = "Contained" onClick={handleCloseModal}>
+                        Close
                     </Button>
                 </Alert>
             </Box>
