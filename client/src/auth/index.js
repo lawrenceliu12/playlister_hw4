@@ -10,13 +10,16 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
-    REGISTER_USER: "REGISTER_USER"
+    REGISTER_USER: "REGISTER_USER",
+    LOGIN_FAIL: "LOGIN_FAIL",
+    REGISTER_FAIL: "REGISTER_FAIL",
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        message: ""
     });
     const history = useHistory();
 
@@ -51,6 +54,22 @@ function AuthContextProvider(props) {
                     loggedIn: true
                 })
             }
+            case AuthActionType.LOGIN_FAIL: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    message: payload.errorMessage,
+                    loginFailFlag: payload.loginFailFlag
+                })
+            }
+            case AuthActionType.REGISTER_FAIL: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    message: payload.errorMessage,
+                    registerFailFlag: payload.registerFailFlag
+                })
+            }
             default:
                 return auth;
         }
@@ -70,28 +89,56 @@ function AuthContextProvider(props) {
     }
 
     auth.registerUser = async function(firstName, lastName, email, password, passwordVerify) {
-        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);      
-        if (response.status === 200) {
+        try{
+            const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);      
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.REGISTER_USER,
+                    payload: {
+                        user: response.data.user
+                    }
+                })
+                history.push("/");
+            }
+        }
+        catch (error) {
+            const errorMessage = error.response.data.errorMessage;
+            console.log(errorMessage);
+
             authReducer({
-                type: AuthActionType.REGISTER_USER,
+                type: AuthActionType.REGISTER_FAIL,
                 payload: {
-                    user: response.data.user
+                    errorMessage: errorMessage,
+                    registerFailFlag: true
                 }
             })
-            history.push("/");
         }
     }
 
     auth.loginUser = async function(email, password) {
-        const response = await api.loginUser(email, password);
-        if (response.status === 200) {
+        try {
+            const response = await api.loginUser(email, password);
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.LOGIN_USER,
+                    payload: {
+                        user: response.data.user
+                    }
+                });
+                history.push("/");
+            }
+        }
+        catch (error) {
+            const errorMessage = error.response.data.errorMessage;
+            let flag = true;
+            console.log(errorMessage);
             authReducer({
-                type: AuthActionType.LOGIN_USER,
+                type: AuthActionType.LOGIN_FAIL,
                 payload: {
-                    user: response.data.user
+                    errorMessage: errorMessage,
+                    loginFailFlag: flag
                 }
-            })
-            history.push("/");
+            });
         }
     }
 
@@ -114,6 +161,28 @@ function AuthContextProvider(props) {
         }
         console.log("user initials: " + initials);
         return initials;
+    }
+
+    auth.closeLoginErrorModal = async function() {
+        console.log("Attempting to close login fail");
+
+        authReducer({
+            type: AuthActionType.LOGIN_FAIL,
+            payload: {
+                loginFailFlag: false
+            }
+        })
+    }
+
+    auth.closeRegisterErrorModal = async function() {
+        console.log("Attempting to close register fail");
+
+        authReducer({
+            type: AuthActionType.REGISTER_FAIL,
+            payload: {
+                registerFailFlag: false
+            }
+        })
     }
 
     return (

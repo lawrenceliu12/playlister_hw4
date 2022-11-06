@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AuthContext from '../auth'
 import Copyright from './Copyright'
 
@@ -12,9 +12,11 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import MUIRegisterFailModal from './MUIRegisterFailModal';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
+    const [openRegisterFailModal, closeRegisterFailModal] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,6 +31,8 @@ export default function RegisterScreen() {
     };
 
     return (
+        <>
+            <MUIRegisterFailModal openRegisterFailModal = {openRegisterFailModal}/>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -120,5 +124,6 @@ export default function RegisterScreen() {
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+        </>
     );
 }
