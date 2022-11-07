@@ -16,6 +16,7 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
+    p: 1
 };
 
 export default function MUILoginFailModal(){
@@ -35,10 +36,12 @@ export default function MUILoginFailModal(){
                         Warning
                     </AlertTitle>
                     {errorMessage}
-                    <Button variant = "Contained" onClick={handleCloseModal}>
+                </Alert>
+                <Box sx = {{textAlign: 'center', mt: 1}}>
+                    <Button variant = "contained" onClick={handleCloseModal}>
                         Close
                     </Button>
-                </Alert>
+                </Box>
             </Box>
         </Modal>
     );

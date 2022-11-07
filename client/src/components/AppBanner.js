@@ -63,7 +63,7 @@ export default function AppBanner() {
             </MenuItem>
             {/* <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem> */}
             <MenuItem onClick = {handleMenuClose} component = {Link} to ="/register/">
-                <Link to = "/login">
+                <Link to = "/register">
                     Create New Account
                 </Link>
             </MenuItem>
