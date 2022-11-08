@@ -36,7 +36,7 @@ export default function MUILoginFailModal({flag, errorMessage}){
                         Warning
                     </AlertTitle>
                     {errorMessage}
-                    <Button variant = "Contained" onClick={handleCloseModal}>
+                    <Button variant = "contained" onClick={handleCloseModal}>
                         Close
                     </Button>
                 </Alert>
